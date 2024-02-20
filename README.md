@@ -118,7 +118,7 @@ These pins are what I decided on.
 ![image](https://github.com/puibtx/puibtx-s-mechanical-keyboard/assets/99428766/0fa31fe6-5b98-4ba7-8fec-64cd2f5abff2)
 
 **********************************************************************************************************************************
-10) n
+10) 
 now go under the folder of the QMK firmware that we have downloaded in step 8).
 and check out any of the projects that have already been created by the community.
 I went with 9key. But pick what you like, by viewing the QMK firmware GitHub page, and there are some previews of the keyboards. 
@@ -127,10 +127,12 @@ LET go over some files you need to edit.
 
   1) 9key.c 
      if you want to have a rotatory encoder in your keyboard, enable it by put the following line
-     ```
-    bool encoder_update_kb(uint8_t index, bool clockwise) {
+````
+bool encoder_update_kb(uint8_t index, bool clockwise) {
     return encoder_update_user(index, clockwise);
-    }
-
-    ```
+}
+````
+  2) 9key.h
+     place holder
+  3)  to be finished . 
      
