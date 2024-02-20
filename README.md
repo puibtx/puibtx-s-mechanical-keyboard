@@ -1,4 +1,4 @@
-This is a mechanical keyboard using an Arduino Nano ( or any of the knock-offs that running on the ATmega328P)
+This is a mechanical keyboard using an Arduino MICRO ( or any of the knock-offs that running on the ATmega32U4)
 **********************************************************************************************************************************
 
 1)
@@ -25,7 +25,7 @@ You can find ways to download the CAD drawing in SVG, DXF, and EPS, just in case
 Now, we need to generate a keyboard matrix. To learn what a matrix is, you can read (https://github.com/EanNewton/Awesome-Keebs/blob/main/tutorials/How%20to%20make%20a%20keyboard%20-%20the%20matrix.md)
 
 once again, grab the layout you have designed and put it in https://kbfirmware.com/. 
-Under the wiring tab, we can see how many rows and columns you need to complete the matrix, but remember the number of pins on an Arduino nano is limited. Thus, you need to reduce the number of columns
+Under the wiring tab, we can see how many rows and columns you need to complete the matrix, but remember the number of pins on an Arduino MICRO is limited. Thus, you need to reduce the number of columns
 and rows required for the keyboard. 
 
 For example, the default wiring for my layout is: 
@@ -36,6 +36,7 @@ This might look confusing, but the idea is to fit keys into the 13x5 matrix.
 
 I ended up with a 15x5 matrix, meaning I needed to use 20 pins on the Arduino Uno.  
 keep the screenshot of your wiring diagram, and download the .hex and the zip file under the compile tab.
+**Now decide which microcontroller or dev board you want to use, make sure you have enough pins for # of rows and # of columns. 
 
 **********************************************************************************************************************************
 4) 
@@ -78,7 +79,7 @@ To print the PCB, I recommend JLC PCB: https://jlcpcb.com/
 they offer cheap or sometimes even free PCB fabrication, but here is the catch: shipping is a big part of the final price.
 In my case, I had to order 5 PCBs, but shipping (US, California) was ~$25 total, which is still reasonable. \
 
-the final PCB arrive and look like: 
+the final PCB arrive and looks like: 
 ![c9851ba372f73256a2a66e2067f7871](https://github.com/puibtx/puibtx-s-mechanical-keyboard/assets/99428766/9773cc75-ceb7-46e5-84b0-38e9e0d7128c)
 ![a2949e3136599316f9804f63e5c191d](https://github.com/puibtx/puibtx-s-mechanical-keyboard/assets/99428766/026f73f1-043c-4ba6-baae-f34696a312c0).
 
@@ -88,7 +89,7 @@ Solder time, because I used SMD components, a hot air station is necessary; they
 ** Make sure to have solder paste that is not expired; it will be a nightmare dealing with expired solder paste. 
 It was a pain to solder more than 68 switches, SMD diodes, SMD Caps, and LEDs.
 
-The model of the Arduino NANO knockoff had a USB micro B port, and I wanted to convert it to USB-C; you can just adapt a standard USB 2.0 by soldering the corresponding wires to the same pins. 
+The model of the Arduino MICRO knockoff had a USB micro B port, and I wanted to convert it to USB-C; you can just adapt a standard USB 2.0 by soldering the corresponding wires to the same pins. 
 ![image](https://github.com/puibtx/puibtx-s-mechanical-keyboard/assets/99428766/3e5bc62a-1bcd-46b9-adfd-7c4d0883dd3c)
 ** Since the USB C device needs to know which is the host and which is a peripheral device to provide power, we need to connect the CC1 and CC2 channels, each with a 5.1k ohm resistor for pulldown.
 
@@ -100,5 +101,36 @@ The complete product.
 
 **********************************************************************************************************************************
 8)
-Software....... TO BE COMPLETE
+Software Part.
 
+I recommend QMK Firmware for Atmega32U4, https://github.com/qmk/qmk_toolbox. Pick your poison depending on your OS.
+Also, go and grab some example firmware from https://docs.qmk.fm/#/newbs_getting_started for reference. 
+
+
+**********************************************************************************************************************************
+9)
+now decide what pin you want to use for your keyboard, make sure you have enough pins for # of rows and # of columns.
+
+you can reference the available pin at https://store-usa.arduino.cc/products/arduino-micro.
+![image](https://github.com/puibtx/puibtx-s-mechanical-keyboard/assets/99428766/1c800fe7-dea9-4b3e-97e6-1119d3606dc5)
+
+These pins are what I decided on. 
+![image](https://github.com/puibtx/puibtx-s-mechanical-keyboard/assets/99428766/0fa31fe6-5b98-4ba7-8fec-64cd2f5abff2)
+
+**********************************************************************************************************************************
+10) n
+now go under the folder of the QMK firmware that we have downloaded in step 8).
+and check out any of the projects that have already been created by the community.
+I went with 9key. But pick what you like, by viewing the QMK firmware GitHub page, and there are some previews of the keyboards. 
+
+LET go over some files you need to edit. 
+
+  1) 9key.c 
+     if you want to have a rotatory encoder in your keyboard, enable it by put the following line
+     ```
+    bool encoder_update_kb(uint8_t index, bool clockwise) {
+    return encoder_update_user(index, clockwise);
+    }
+
+    ```
+     
